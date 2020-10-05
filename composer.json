@@ -1,0 +1,30 @@
+{
+  "name": "fluffy-factory/user-stats",
+  "license": "MIT",
+  "type": "symfony-bundle",
+  "description": "User stats Bundle",
+  "keywords": [
+    "symfony",
+    "bundle",
+    "user",
+    "stats"
+  ],
+  "homepage": "https://github.com/fluffy-factory/user-stats",
+  "authors": [
+    {
+      "name": "Devcut",
+      "email": "guillaume.egloff@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "FluffyFactory\\Bundle\\UserStatsBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
+}

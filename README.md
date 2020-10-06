@@ -5,6 +5,12 @@
 composer require fluffy-factory/user-stats
 ```
 
+Make a database schema update
+
+```
+php bin/console d:s:u --force
+```
+
 ## Configuration
 
 ### Entity
@@ -19,6 +25,8 @@ class User
     ...
 }
 ```
+
+Make a data
 
 ### Routing
 

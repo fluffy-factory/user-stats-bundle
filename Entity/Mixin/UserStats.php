@@ -21,7 +21,12 @@ trait UserStats
     private $lastVisited;
 
     /**
-     * @ORM\OneToMany(targetEntity="FluffyFactory\Bundle\UserStatsBundle\Entity\UserStatsLines", mappedBy="user")
+     * @ORM\Column(type="bigint")
+     */
+    private $nbPageViews = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="FluffyFactory\Bundle\UserStatsBundle\Entity\UserStatsLines", mappedBy="user", cascade={"persist", "remove"})
      */
     private $userLines;
 
@@ -90,5 +95,21 @@ trait UserStats
         }
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbPageViews(): int
+    {
+        return $this->nbPageViews;
+    }
+
+    /**
+     * @param int $nbPageViews
+     */
+    public function setNbPageViews(int $nbPageViews): void
+    {
+        $this->nbPageViews = $nbPageViews;
     }
 }

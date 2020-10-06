@@ -6,3 +6,7 @@ services:
   FluffyFactory\Bundle\UserStatsBundle\:
     resource: '../../*'
     exclude: '../../{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  FluffyFactory\Bundle\UserStatsBundle\EventListener\LoginListener:
+    tags:
+      - { name: 'kernel.event_listener', event: 'security.interactive_login' }

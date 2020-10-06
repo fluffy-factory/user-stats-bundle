@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use FluffyFactory\Bundle\UserStatsBundle\Entity\UserStatsLines;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
 
 class UserStatsSubscriber implements EventSubscriberInterface
@@ -28,58 +27,30 @@ class UserStatsSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => 'userStats',
             RequestEvent::class => 'onKernelRequest'
         ];
     }
 
     /**
-     * Call all function for user stats
+     * Create user stats line for each page views
+     * @param RequestEvent $event
      */
-    public function userStats()
-    {
-        /** @var User $user */
-        $user = $this->security->getUser();
-
-        $this->lastUserVisit($user);
-        $this->nbUserPageViews($user);
-
-        $this->em->persist($user);
-        $this->em->flush();
-    }
-
-    /**
-     * For each page see, set last visited for user
-     * @param User|null $user
-     */
-    public function lastUserVisit(?User $user)
-    {
-        if ($user) {
-            $user->setLastVisited(new DateTime());
-        }
-    }
-
-    /**
-     * Increment nb user page views
-     * @param User|null $user
-     */
-    public function nbUserPageViews(?User $user)
-    {
-        if ($user) {
-            $user->setNbPageViews($user->getNbPageViews() + 1);
-        }
-    }
-
     public function onKernelRequest(RequestEvent $event)
     {
         /** @var User $user */
         $user = $this->security->getUser();
 
         if ($user) {
+            $user->setLastVisited(new DateTime());
+            $user->setNbPageViews($user->getNbPageViews() + 1);
+
             $userStatsLines = new UserStatsLines();
             $userStatsLines->setUser($user);
             $userStatsLines->setUrl($event->getRequest()->getRequestUri());
-            
+            $userStatsLines->setRoute($event->getRequest()->get('_route'));
+            $userStatsLines->setBrowser($event->getRequest()->server->get('HTTP_USER_AGENT'));
+
+            $this->em->persist($user);
             $this->em->persist($userStatsLines);
             $this->em->flush();
         }

@@ -1,0 +1,53 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <p>Dernière connexion : {{ last_connexion|date('d/m/Y h:i:s') }}</p>
+                <p>Dernière visite : {% if last_visited %}{{ last_visited|date('d/m/Y h:i:s') }}{% endif %}</p>
+                <p>Nombres de pages vues : {{ nb_page_views }}</p>
+                <p>Pages vues aujourd'hui :</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Url</th>
+                            <th scope="col">Route</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for page in page_views_today %}
+                            <tr>
+                                <td>{{ page.createdAt|date('d/m/Y h:i:s') }}</td>
+                                <td>
+                                    <p class="d-inline-block text-truncate" style="max-width: 300px">{{ page.url }}</p>
+                                </td>
+                                <td>{{ page.route }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                {% if avg_utilisation.hours %}
+                    <p>
+                        Heures à laquelles l'utilisateur utilise le plus l'application :
+                        {% for hour, nb in avg_utilisation.hours %}
+                            {{ hour }}h {% if not loop.last %}-{% endif %}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+
+                {% if avg_utilisation.day %}
+                    <p>
+                        Jour à laquelles l'utilisateur utilise le plus l'application :
+                        {% for day, nb in avg_utilisation.day %}
+                            {{ day }}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

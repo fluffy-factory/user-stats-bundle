@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesRepository")
  */
 class UserStatsLines
 {
@@ -35,6 +35,16 @@ class UserStatsLines
      * @ORM\Column(type="text")
      */
     private $url;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $route;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $browser;
 
     public function __construct()
     {
@@ -95,5 +105,37 @@ class UserStatsLines
     public function setUrl($url): void
     {
         $this->url = $url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
+     * @param mixed $route
+     */
+    public function setRoute($route): void
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
+    }
+
+    /**
+     * @param mixed $browser
+     */
+    public function setBrowser($browser): void
+    {
+        $this->browser = $browser;
     }
 }

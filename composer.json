@@ -26,5 +26,8 @@
     "exclude-from-classmap": [
       "/Tests/"
     ]
+  },
+  "extra": {
+    "installer-name": "UserStatsBundle"
   }
 }

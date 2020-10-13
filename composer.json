@@ -1,5 +1,5 @@
 {
-  "name": "fluffy-factory/user-stats",
+  "name": "fluffy-factory/user-stats-bundle",
   "license": "MIT",
   "type": "symfony-bundle",
   "description": "User stats Bundle",
@@ -9,7 +9,7 @@
     "user",
     "stats"
   ],
-  "homepage": "https://github.com/fluffy-factory/user-stats",
+  "homepage": "https://github.com/fluffy-factory/user-stats-bundle",
   "authors": [
     {
       "name": "Devcut",

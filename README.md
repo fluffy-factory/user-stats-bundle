@@ -2,7 +2,7 @@
 
 ## Installation
 ```
-composer require fluffy-factory/user-stats
+composer require fluffy-factory/user-stats-bundle
 ```
 
 ## Configuration

@@ -61,4 +61,17 @@ class UserStatsService
             'day' => $dayUtilisation
         ];
     }
+
+    /**
+     * @param User $user
+     */
+    public function removeUserStatsLines(User $user)
+    {
+        $userStatsLines = $this->em->getRepository(UserStatsLines::class)->findByUser($user);
+
+        /** @var UserStatsLines $userStatsLine */
+        foreach ($userStatsLines as $userStatsLine) {
+            $this->em->remove($userStatsLine);
+        }
+    }
 }

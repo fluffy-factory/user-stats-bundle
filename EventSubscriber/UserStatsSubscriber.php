@@ -40,10 +40,10 @@ class UserStatsSubscriber implements EventSubscriberInterface
         /** @var User $user */
         $user = $this->security->getUser();
 
-        if ($user) {
+        if ($user && $event->getRequest()->get('_route')) {
             $user->setLastVisited(new DateTime());
             $user->setNbPageViews($user->getNbPageViews() + 1);
-
+            
             $userStatsLines = new UserStatsLines();
             $userStatsLines->setUser($user);
             $userStatsLines->setUrl($event->getRequest()->getRequestUri());
@@ -52,6 +52,7 @@ class UserStatsSubscriber implements EventSubscriberInterface
 
             $this->em->persist($user);
             $this->em->persist($userStatsLines);
+
             $this->em->flush();
         }
     }

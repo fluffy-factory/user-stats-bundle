@@ -1,53 +1,90 @@
-{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block content_title %}
+    Statistiques utilisateur
+{% endblock %}
+
+{% block page_actions %}
+    <a class="btn btn-danger" href="{{ path('fluffy_remove_user_stats', { id: user.id, eaContext: eaContext }) }}"><i class="fa fa-times mr-2"></i>Supprimer les statistiques de l'utlisateur</a>
+{% endblock %}
 
 {% block main %}
-    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6">
-                <p>Dernière connexion : {{ last_connexion|date('d/m/Y h:i:s') }}</p>
-                <p>Dernière visite : {% if last_visited %}{{ last_visited|date('d/m/Y h:i:s') }}{% endif %}</p>
-                <p>Nombres de pages vues : {{ nb_page_views }}</p>
-                <p>Pages vues aujourd'hui :</p>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Url</th>
-                            <th scope="col">Route</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-header">Dernière connexion</div>
+                    <div class="card-body">
+                        <h5 class="mb-0">{% if last_connexion %}{{ last_connexion|date('d/m/Y h:i:s') }}{% else %}Aucune{% endif %}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">Dernière visite</div>
+                    <div class="card-body">
+                        <h5 class="mb-0">{% if last_visited %}{{ last_visited|date('d/m/Y h:i:s') }}{% else %}Aucune{% endif %}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">Nombres de pages vues au total</div>
+                    <div class="card-body">
+                        <h5 class="mb-0">{{ nb_page_views }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">Nombres de pages vues aujourd'hui</div>
+                    <div class="card-body">
+                        <h5 class="mb-0">{{ page_views_today|length }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">Heures auxquelles l'utilisateur utilise le plus l'application</div>
+                    <div class="card-body">
+                        {% for hour, nb in avg_utilisation.hours %}
+                            <span class="badge badge-primary badge-pill">{{ hour }}h <i>({{ nb }})</i></span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-4">
+                <div class="card text-center">
+                    <div class="card-header">Jours auxquels l'utilisateur utilise le plus l'application</div>
+                    <div class="card-body">
+                        {% for day, nb in avg_utilisation.day %}
+                            <span class="badge badge-primary badge-pill">{{ day }} <i>({{ nb }})</i></span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Url</th>
+                                <th scope="col">Route</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         {% for page in page_views_today %}
                             <tr>
                                 <td>{{ page.createdAt|date('d/m/Y h:i:s') }}</td>
                                 <td>
-                                    <p class="d-inline-block text-truncate" style="max-width: 300px">{{ page.url }}</p>
+                                    <p class="d-inline-block text-truncate" style="max-width: 500px">{{ page.url }}</p>
                                 </td>
                                 <td>{{ page.route }}</td>
                             </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-sm-6">
-                {% if avg_utilisation.hours %}
-                    <p>
-                        Heures à laquelles l'utilisateur utilise le plus l'application :
-                        {% for hour, nb in avg_utilisation.hours %}
-                            {{ hour }}h {% if not loop.last %}-{% endif %}
-                        {% endfor %}
-                    </p>
-                {% endif %}
-
-                {% if avg_utilisation.day %}
-                    <p>
-                        Jour à laquelles l'utilisateur utilise le plus l'application :
-                        {% for day, nb in avg_utilisation.day %}
-                            {{ day }}
-                        {% endfor %}
-                    </p>
-                {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 {% endblock %}

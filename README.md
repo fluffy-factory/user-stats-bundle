@@ -43,7 +43,15 @@ fluffy_user_stats:
 
 Add custom actions in your entity configuration
 
-```yaml
-actions:
-  - { name: 'fluffy_user_stats', type: 'route', label: false, icon: 'user', css_class: 'btn btn-primary' }
+```php
+$userStats = Action::new('userStats', 'Statistiques utilisateur')
+    ->linkToRoute('fluffy_user_stats', function (User $entity) {
+       return [
+           'id' => $entity->getId()
+       ];
+    });
+
+return parent::configureActions($actions)
+    ->add(Crud::PAGE_INDEX, $userStats)
+        ->setPermission('userStats', 'ROLE_SUPER_ADMIN');
 ```

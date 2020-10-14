@@ -1,90 +1,111 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block content_title %}
-    Statistiques utilisateur
+    {{ 'user.stats.title'|trans({}, 'UserStatsBundle') }}
 {% endblock %}
 
 {% block page_actions %}
-    <a class="btn btn-danger" href="{{ path('fluffy_remove_user_stats', { id: user.id, eaContext: eaContext }) }}"><i class="fa fa-times mr-2"></i>Supprimer les statistiques de l'utlisateur</a>
+    <a class="btn btn-secondary" href="{{ ea_url().setController('App\\Controller\\SuperAdmin\\UserCrudController').setAction('index') }}">{{ 'action.index'|trans({}, 'EasyAdminBundle') }}</a>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeUsersStatsModal">{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</button>
 {% endblock %}
 
 {% block main %}
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card text-center">
-                    <div class="card-header">Dernière connexion</div>
-                    <div class="card-body">
-                        <h5 class="mb-0">{% if last_connexion %}{{ last_connexion|date('d/m/Y h:i:s') }}{% else %}Aucune{% endif %}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 mb-4">
-                <div class="card text-center">
-                    <div class="card-header">Dernière visite</div>
-                    <div class="card-body">
-                        <h5 class="mb-0">{% if last_visited %}{{ last_visited|date('d/m/Y h:i:s') }}{% else %}Aucune{% endif %}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 mb-4">
-                <div class="card text-center">
-                    <div class="card-header">Nombres de pages vues au total</div>
-                    <div class="card-body">
-                        <h5 class="mb-0">{{ nb_page_views }}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 mb-4">
-                <div class="card text-center">
-                    <div class="card-header">Nombres de pages vues aujourd'hui</div>
-                    <div class="card-body">
-                        <h5 class="mb-0">{{ page_views_today|length }}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 mb-4">
-                <div class="card text-center">
-                    <div class="card-header">Heures auxquelles l'utilisateur utilise le plus l'application</div>
-                    <div class="card-body">
-                        {% for hour, nb in avg_utilisation.hours %}
-                            <span class="badge badge-primary badge-pill">{{ hour }}h <i>({{ nb }})</i></span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 mb-4">
-                <div class="card text-center">
-                    <div class="card-header">Jours auxquels l'utilisateur utilise le plus l'application</div>
-                    <div class="card-body">
-                        {% for day, nb in avg_utilisation.day %}
-                            <span class="badge badge-primary badge-pill">{{ day }} <i>({{ nb }})</i></span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="card">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Url</th>
-                                <th scope="col">Route</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for page in page_views_today %}
-                            <tr>
-                                <td>{{ page.createdAt|date('d/m/Y h:i:s') }}</td>
-                                <td>
-                                    <p class="d-inline-block text-truncate" style="max-width: 500px">{{ page.url }}</p>
-                                </td>
-                                <td>{{ page.route }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.lastConnexion'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    <h5 class="mb-0">{% if last_connexion %}{{ last_connexion|format_datetime('long', 'medium', locale=app.request.locale) }}{% else %}{{ 'label.null'|trans({}, 'EasyAdminBundle') }}{% endif %}</h5>
                 </div>
             </div>
         </div>
+        <div class="col-sm-3 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.lastVisited'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    <h5 class="mb-0">{% if last_visited %}{{ last_visited|format_datetime('long', 'medium', locale=app.request.locale) }}{% else %}{{ 'label.null'|trans({}, 'EasyAdminBundle') }}{% endif %}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.totalPageSee'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    <h5 class="mb-0">{{ nb_page_views }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.pageSeeToday'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    <h5 class="mb-0">{{ page_views_today|length }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.avgHours'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    {% for hour, nb in avg_utilisation.hours %}
+                        <span class="badge badge-primary badge-pill">{{ hour }}h <i>({{ nb }}x)</i></span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.avgDay'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    {% for day, nb in avg_utilisation.day %}
+                        <span class="badge badge-primary badge-pill">{{ ('day.' ~ day)|trans({}, 'UserStatsBundle') }} <i>({{ nb }}x)</i></span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ 'user.stats.table.head.date'|trans({}, 'UserStatsBundle') }}</th>
+                            <th scope="col">{{ 'user.stats.table.head.url'|trans({}, 'UserStatsBundle') }}</th>
+                            <th scope="col">{{ 'user.stats.table.head.route'|trans({}, 'UserStatsBundle') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for page in page_views_today %}
+                        <tr>
+                            <td>{{ page.createdAt|date('d/m/Y h:i:s') }}</td>
+                            <td>
+                                <p class="d-inline-block text-truncate" style="max-width: 500px">{{ page.url }}</p>
+                            </td>
+                            <td>{{ page.route }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="removeUsersStatsModal" tabindex="-1" role="dialog" aria-labelledby="removeUsersStatsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ 'user.stats.modal.delete.title'|trans({}, 'UserStatsBundle') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ 'user.stats.modal.delete.body'|trans({}, 'UserStatsBundle') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'action.cancel'|trans({}, 'EasyAdminBundle') }}</button>
+                    <a class="btn btn-danger" href="{{ path('fluffy_remove_user_stats', { id: user.id, eaContext: eaContext }) }}"><i class="fa fa-times mr-2"></i>{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,32 @@
+user:
+  stats:
+    title: User statistics
+    card:
+      lastConnexion: Last connexion
+      lastVisited: Last visit
+      totalPageSee: Total number of page views
+      pageSeeToday: Number of page views today
+      avgHours: Hours when the user uses the application the most
+      avgDay: Days on which the user uses the application the most
+    modal:
+      delete:
+        title: Are you sure you want to delete the user's data?
+        body: This action is irreversible.
+    table:
+      head:
+        date: Date
+        url: Url
+        route: Route
+
+actions:
+  delete:
+    stats: Delete user statistics
+
+day:
+  Monday: Monday
+  Tuesday: Tuesday
+  Wednesday: Wednesday
+  Thursday: Thursday
+  Friday: Friday
+  Saturday: Saturday
+  Sunday: Sunday

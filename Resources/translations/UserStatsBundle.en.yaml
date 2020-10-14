@@ -17,6 +17,7 @@ user:
         date: Date
         url: Url
         route: Route
+        link: Link
 
 actions:
   delete:

@@ -1,0 +1,21 @@
+.fluffy-user-stats-table.table thead th {
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.dataTables_filter {
+    padding: 0;
+    border-bottom: 0;
+}
+
+.dataTables_length, .dataTables_filter {
+    margin-bottom: 10px !important;
+}
+
+.dataTables_info, .dataTables_paginate {
+    margin-top: 10px !important;
+}
+
+.dataTables_info {
+    padding-top: 0 !important;
+}

@@ -34,6 +34,12 @@ Make a database schema update
 php bin/console d:s:u --force
 ```
 
+Install assets 
+
+```
+php bin/console assets:install
+```
+
 ### Routing
 
 Create routes file `config/routes/fluffy_user_stats.yaml` with the below config:
@@ -62,14 +68,4 @@ $userStats = Action::new('userStats', 'Statistiques utilisateur')
 return parent::configureActions($actions)
     ->add(Crud::PAGE_INDEX, $userStats)
         ->setPermission('userStats', 'ROLE_SUPER_ADMIN');
-```
-
-### Custom
-
-If you not use [EasyadminBundle](https://github.com/EasyCorp/EasyAdminBundle) you can integrate this bundle in your system but you need to override templates.
-
-For route you just need to make a path to `fluffy_user_stats` with user id as parameters
-
-```twig
-<a href="{{ path('fluffy_user_stats', { id: user.id }) }}">User stats</a>
 ```

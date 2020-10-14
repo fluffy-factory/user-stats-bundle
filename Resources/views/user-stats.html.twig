@@ -1,5 +1,11 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/userstats/lib/css/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/userstats/css/app.css') }}">
+{% endblock %}
+
 {% block content_title %}
     {{ 'user.stats.title'|trans({}, 'UserStatsBundle') }}
 {% endblock %}
@@ -65,26 +71,36 @@
         </div>
         <div class="col-sm-12">
             <div class="card">
-                <table class="table">
+                <div class="card-body">
+                <table class="table table-bordered fluffy-user-stats-table" style="width: 100%">
                     <thead>
                         <tr>
                             <th scope="col">{{ 'user.stats.table.head.date'|trans({}, 'UserStatsBundle') }}</th>
                             <th scope="col">{{ 'user.stats.table.head.url'|trans({}, 'UserStatsBundle') }}</th>
                             <th scope="col">{{ 'user.stats.table.head.route'|trans({}, 'UserStatsBundle') }}</th>
+                            <th class="no-sort" scope="col">{{ 'user.stats.table.head.link'|trans({}, 'UserStatsBundle') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for page in page_views_today %}
                         <tr>
-                            <td>{{ page.createdAt|date('d/m/Y h:i:s') }}</td>
+                            <td>{{ page.createdAt|format_datetime('medium', 'medium', locale=app.request.locale) }}</td>
                             <td>
-                                <p class="d-inline-block text-truncate" style="max-width: 500px">{{ page.url }}</p>
+                                <p class="d-inline-block text-truncate" style="width: 300px" data-toggle="tooltip" data-placement="top" title="{{ page.url }}">
+                                    {{ page.url }}
+                                </p>
                             </td>
                             <td>{{ page.route }}</td>
+                            <td>
+                                <a class="btn btn-secondary" target="_blank" href="{{ page.url }}">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>
@@ -108,4 +124,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var locale = '{{ app.request.locale }}';
+    </script>
+    <script type="text/javascript" src="{{ asset('bundles/userstats/lib/js/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/userstats/js/app.js') }}"></script>
 {% endblock %}

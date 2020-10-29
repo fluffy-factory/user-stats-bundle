@@ -1,0 +1,33 @@
+user:
+  stats:
+    title: Gebruikersstatistieken
+    card:
+      lastConnexion: Vorige verbinding
+      lastVisited: Vorige bezichtiging
+      totalPageSee: Totaal aantal bekeken pagina's
+      pageSeeToday: Totaal aantal pagina's vandaag bekeken
+      avgHours: Uren wanneer de gebruiker de applicatie het meest gebruikt
+      avgDay: Dagen wanneer de gebruiker de applicatie het meest gebruikt
+    modal:
+      delete:
+        title: Weet u zeker dat u de gegevens van de gebruiker wilt verwijderen?
+        body: Deze actie is onomkeerbaar.
+    table:
+      head:
+        date: Datum
+        url: Url
+        route: Route
+        link: Link
+
+actions:
+  delete:
+    stats: Gebruikersstatistieken verwijderen
+
+day:
+  Monday: Maandag
+  Tuesday: Dinsdag
+  Wednesday: Woensdag
+  Thursday: Donderdag
+  Friday: Vrijdag
+  Saturday: Zaterdag
+  Sunday: Zondag

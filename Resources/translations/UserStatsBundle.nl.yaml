@@ -1,9 +1,9 @@
 user:
   stats:
-    title: Gebruikersstatistieken
+    title: Gebruikers statistieken
     card:
       lastConnexion: Vorige verbinding
-      lastVisited: Vorige bezichtiging
+      lastVisited: Vorige bezoek
       totalPageSee: Totaal aantal bekeken pagina's
       pageSeeToday: Totaal aantal pagina's vandaag bekeken
       avgHours: Uren wanneer de gebruiker de applicatie het meest gebruikt
@@ -11,7 +11,7 @@ user:
     modal:
       delete:
         title: Weet u zeker dat u de gegevens van de gebruiker wilt verwijderen?
-        body: Deze actie is onomkeerbaar.
+        body: Deze actie kan niet ongedaan gemaakt worden.
     table:
       head:
         date: Datum
@@ -21,7 +21,7 @@ user:
 
 actions:
   delete:
-    stats: Gebruikersstatistieken verwijderen
+    stats: Gebruikers statistieken verwijderen
 
 day:
   Monday: Maandag

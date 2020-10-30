@@ -2,7 +2,7 @@ user:
   stats:
     title: User statistics
     card:
-      lastConnexion: Last connexion
+      lastConnexion: Last connection
       lastVisited: Last visit
       totalPageSee: Total number of page views
       pageSeeToday: Number of page views today

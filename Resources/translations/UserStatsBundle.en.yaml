@@ -8,6 +8,7 @@ user:
       pageSeeToday: Number of page views today
       avgHours: Hours when the user uses the application the most
       avgDay: Days on which the user uses the application the most
+      mostRouteViewed: Most visited routes
     modal:
       delete:
         title: Are you sure you want to delete the user's data?

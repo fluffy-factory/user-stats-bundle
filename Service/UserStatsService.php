@@ -33,13 +33,13 @@ class UserStatsService
      */
     public function getAvgUtilisation(User $user)
     {
-        $allUserStatsLines = $this->em->getRepository(UserStatsLines::class)->findByUser($user);
+        $userStatsLines = $this->em->getRepository(UserStatsLines::class)->findByUser($user);
 
         $hoursUtilisation = [];
         $dayUtilisation = [];
 
         /** @var UserStatsLines $allUserStatsLine */
-        foreach ($allUserStatsLines as $allUserStatsLine) {
+        foreach ($userStatsLines as $allUserStatsLine) {
             if (!isset($dayUtilisation[$allUserStatsLine->getCreatedAt()->format('H')])) {
                 $dayUtilisation[$allUserStatsLine->getCreatedAt()->format('l')] = 1;
             } else {
@@ -60,6 +60,29 @@ class UserStatsService
             'hours' => $hoursUtilisation,
             'day' => $dayUtilisation
         ];
+    }
+
+    /**
+     * @param User $user
+     * @return UserStatsLines[]
+     */
+    public function getMostRouteViewed(User $user)
+    {
+        $mostRouteViewed = [];
+        $userStatsLines = $this->em->getRepository(UserStatsLines::class)->findByUser($user);
+
+        /** @var UserStatsLines $userStatsLine */
+        foreach ($userStatsLines as $userStatsLine) {
+            if (!isset($mostRouteViewed[$userStatsLine->getRoute()])) {
+                $mostRouteViewed[$userStatsLine->getRoute()] = 1;
+            } else {
+                $mostRouteViewed[$userStatsLine->getRoute()]++;
+            }
+        }
+
+        arsort($mostRouteViewed);
+
+        return $mostRouteViewed;
     }
 
     /**

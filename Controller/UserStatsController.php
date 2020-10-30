@@ -26,6 +26,7 @@ class UserStatsController extends AbstractController
     /**
      * @Route("/user-stats/{id}", name="fluffy_user_stats")
      * @param User $user
+     * @param Request $request
      * @param UserStatsService $userStatsService
      * @return Response
      */
@@ -36,6 +37,7 @@ class UserStatsController extends AbstractController
         $nbPageViews = $user->getNbPageViews();
         $pageViewsToday = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('midnight'), (new DateTime())->modify('23:59:59'));
         $avgUtilisation = $userStatsService->getAvgUtilisation($user);
+        $mostRouteViewed = $userStatsService->getMostRouteViewed($user);
 
         return $this->render('@UserStats/user-stats.html.twig', [
             'user' => $user,
@@ -44,6 +46,7 @@ class UserStatsController extends AbstractController
             'nb_page_views' => $nbPageViews,
             'page_views_today' => $pageViewsToday,
             'avg_utilisation' => $avgUtilisation,
+            'most_route_viewed' => $mostRouteViewed,
             'eaContext' => $request->query->get('eaContext'),
         ]);
     }

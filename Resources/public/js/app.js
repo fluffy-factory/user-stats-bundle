@@ -3,6 +3,8 @@ $(document).ready( function () {
         locale = 'French'
     } else if (locale === 'en') {
         locale = 'English'
+    } else if (locale === 'nl') {
+        locale = 'Dutch'
     }
 
     $('.fluffy-user-stats-table').DataTable({

@@ -3,6 +3,7 @@
 {% block head_stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/userstats/lib/css/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/userstats/lib/css/apexcharts.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/userstats/css/app.css') }}">
 {% endblock %}
 
@@ -69,6 +70,16 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ 'user.stats.card.mostRouteViewed'|trans({}, 'UserStatsBundle') }}</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <div id="most-route-viewed" data-json="{{ most_route_viewed|json_encode }}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
@@ -86,9 +97,7 @@
                         <tr>
                             <td>{{ page.createdAt|format_datetime('medium', 'medium', locale=app.request.locale) }}</td>
                             <td>
-                                <p class="d-inline-block text-truncate" style="width: 300px" data-toggle="tooltip" data-placement="top" title="{{ page.url }}">
-                                    {{ page.url }}
-                                </p>
+                                {{ page.url|slice(0,50) }}{{ (page.url|length > 50) ? '...' }}
                             </td>
                             <td>{{ page.route }}</td>
                             <td>
@@ -132,5 +141,6 @@
         var locale = '{{ app.request.locale }}';
     </script>
     <script type="text/javascript" src="{{ asset('bundles/userstats/lib/js/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/userstats/lib/js/apexcharts.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/userstats/js/app.js') }}"></script>
 {% endblock %}

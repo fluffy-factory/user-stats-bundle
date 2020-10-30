@@ -1,6 +1,6 @@
 # User stats
 
-![screenshot](https://raw.githubusercontent.com/fluffy-factory/user-stats-bundle/master/Resources/docs/images/screenshot.png)
+![screenshot](Resources/docs/images/screenshot.png)
 
 ## Introduction
 

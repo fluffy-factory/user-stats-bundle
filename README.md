@@ -1,5 +1,7 @@
 # User stats
 
+![screenshot](https://raw.githubusercontent.com/fluffy-factory/user-stats-bundle/master/Resources/docs/images/screenshot.png)
+
 ## Introduction
 
 You need to require Symfony 4.* or 5.* for use this bundle. (and Easyadmin 3.* for the easier installation)

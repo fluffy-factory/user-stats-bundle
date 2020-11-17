@@ -21,4 +21,34 @@ $(document).ready( function () {
             order: []
         }]
     });
+
+    let chart = new ApexCharts($mostRouteViewed.get(0), {
+        series: [{
+            name: "X",
+            data: data
+        }],
+        chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: routes,
+            labels: {
+                show: false,
+            }
+        }
+    });
+    chart.render();
 } );

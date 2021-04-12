@@ -22,10 +22,19 @@ $(document).ready( function () {
         }]
     });
 
+    let $mostRouteViewed = $('#most-route-viewed');
+    let dataRoutes = [];
+    let routes = [];
+
+    $.each($mostRouteViewed.data('json'), function (key, value) {
+        dataRoutes.push(key);
+        routes.push(value);
+    });
+
     let chart = new ApexCharts($mostRouteViewed.get(0), {
         series: [{
-            name: "X",
-            data: data
+            name: "nb",
+            data: routes
         }],
         chart: {
             height: 350,
@@ -44,7 +53,7 @@ $(document).ready( function () {
             },
         },
         xaxis: {
-            categories: routes,
+            categories: dataRoutes,
             labels: {
                 show: false,
             }

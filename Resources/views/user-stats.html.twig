@@ -54,9 +54,13 @@
             <div class="card text-center">
                 <div class="card-header">{{ 'user.stats.card.avgHours'|trans({}, 'UserStatsBundle') }}</div>
                 <div class="card-body">
-                    {% for hour, nb in avg_utilisation.hours %}
-                        <span class="badge badge-primary badge-pill">{{ hour }}h <i>({{ nb }}x)</i></span>
-                    {% endfor %}
+                    {% if avg_utilisation.hours %}
+                        {% for hour, nb in avg_utilisation.hours %}
+                            <span class="badge badge-primary badge-pill">{{ hour }}h <i>({{ nb }}x)</i></span>
+                        {% endfor %}
+                    {% else %}
+                        <h5 class="mb-0">{{ 'label.null'|trans({}, 'EasyAdminBundle') }}</h5>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -64,9 +68,13 @@
             <div class="card text-center">
                 <div class="card-header">{{ 'user.stats.card.avgDay'|trans({}, 'UserStatsBundle') }}</div>
                 <div class="card-body">
-                    {% for day, nb in avg_utilisation.day %}
-                        <span class="badge badge-primary badge-pill">{{ ('day.' ~ day)|trans({}, 'UserStatsBundle') }} <i>({{ nb }}x)</i></span>
-                    {% endfor %}
+                    {% if avg_utilisation.day %}
+                        {% for day, nb in avg_utilisation.day %}
+                            <span class="badge badge-primary badge-pill">{{ ('day.' ~ day)|trans({}, 'UserStatsBundle') }} <i>({{ nb }}x)</i></span>
+                        {% endfor %}
+                    {% else %}
+                        <h5 class="mb-0">{{ 'label.null'|trans({}, 'EasyAdminBundle') }}</h5>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -74,9 +82,13 @@
             <div class="card text-center">
                 <div class="card-header">{{ 'user.stats.card.mostRouteViewed'|trans({}, 'UserStatsBundle') }}</div>
                 <div class="card-body">
-                    <div class="chart-container">
-                        <div id="most-route-viewed" data-json="{{ most_route_viewed|json_encode }}"></div>
-                    </div>
+                    {% if most_route_viewed %}
+                        <div class="chart-container">
+                            <div id="most-route-viewed" data-json="{{ most_route_viewed|json_encode }}"></div>
+                        </div>
+                    {% else %}
+                        <h5 class="mb-0">{{ 'label.null'|trans({}, 'EasyAdminBundle') }}</h5>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -93,7 +105,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for page in page_views_today %}
+                    {% for page in page_views_year %}
                         <tr>
                             <td>{{ page.createdAt|format_datetime('medium', 'medium', locale=app.request.locale) }}</td>
                             <td>

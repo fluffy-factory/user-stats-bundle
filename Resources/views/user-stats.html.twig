@@ -13,7 +13,7 @@
 
 {% block page_actions %}
     <a class="btn btn-secondary" href="{{ ea_url().setController('App\\Controller\\SuperAdmin\\UserCrudController').setAction('index') }}">{{ 'action.index'|trans({}, 'EasyAdminBundle') }}</a>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeUsersStatsModal">{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeUsersStatsModal">{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</button>
 {% endblock %}
 
 {% block main %}
@@ -131,7 +131,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ 'user.stats.modal.delete.title'|trans({}, 'UserStatsBundle') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -139,8 +139,8 @@
                     {{ 'user.stats.modal.delete.body'|trans({}, 'UserStatsBundle') }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'action.cancel'|trans({}, 'EasyAdminBundle') }}</button>
-                    <a class="btn btn-danger" href="{{ path('fluffy_remove_user_stats', { id: user.id, eaContext: eaContext }) }}"><i class="fa fa-times mr-2"></i>{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'action.cancel'|trans({}, 'EasyAdminBundle') }}</button>
+                    <a class="btn btn-danger" href="{{ path('fluffy_remove_user_stats', { id: user.id, eaContext: eaContext }) }}"><i class="fa fa-times me-2"></i>{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</a>
                 </div>
             </div>
         </div>

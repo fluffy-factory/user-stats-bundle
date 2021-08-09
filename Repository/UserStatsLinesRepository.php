@@ -22,12 +22,12 @@ class UserStatsLinesRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $user
+     * @param User $user
      * @param DateTime $begin
      * @param DateTime $end
-     * @return int|mixed|string
+     * @return array
      */
-    public function findByPeriod(User $user, DateTime $begin, DateTime $end)
+    public function findByPeriod(User $user, DateTime $begin, DateTime $end): array
     {
         return $this->createQueryBuilder('usl')
             ->andWhere('usl.user = :user')
@@ -38,20 +38,37 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->orderBy('usl.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**
      * @param User $user
-     * @return int|mixed|string
+     * @return array
      */
-    public function findByUser(User $user)
+    public function findByUser(User $user): array
     {
         return $this->createQueryBuilder('usl')
             ->andWhere('usl.user = :user')
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
-            ;
+        ;
+    }
+
+    /**
+     * @param User $user
+     * @param string $route
+     * @return array
+     */
+    public function findIfUserVisited(User $user, string $route): array
+    {
+        return $this->createQueryBuilder('usl')
+            ->andWhere('usl.user = :user')
+            ->andWhere('usl.route = :route')
+            ->setParameter('user', $user)
+            ->setParameter('route', $route)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

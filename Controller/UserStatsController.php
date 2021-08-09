@@ -6,9 +6,10 @@ use App\Controller\Admin\UserCrudController;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use FluffyFactory\Bundle\UserStatsBundle\Service\UserStatsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,13 +17,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserStatsController extends AbstractController
 {
-    private $adminContextProvider;
-
-    public function __construct(AdminContextProvider $adminContextProvider)
-    {
-        $this->adminContextProvider = $adminContextProvider;
-    }
-
     /**
      * @Route("/user-stats/{id}", name="fluffy_user_stats")
      * @param User $user
@@ -49,7 +43,6 @@ class UserStatsController extends AbstractController
             'page_views_year' => $pageViewYear,
             'avg_utilisation' => $avgUtilisation,
             'most_route_viewed' => $mostRouteViewed,
-            'eaContext' => $request->query->get('eaContext'),
         ]);
     }
 
@@ -57,9 +50,9 @@ class UserStatsController extends AbstractController
      * @Route("/remove-user-stats/{id}", name="fluffy_remove_user_stats")
      * @param User $user
      * @param UserStatsService $userStatsService
-     * @return Response
+     * @return RedirectResponse
      */
-    public function removeUserStats(Request $request, User $user, UserStatsService $userStatsService, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator): Response
+    public function removeUserStats(Request $request, User $user, UserStatsService $userStatsService, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
     {
         $user->setLastConnexion(null);
         $user->setLastVisited(null);
@@ -69,9 +62,6 @@ class UserStatsController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return $this->redirectToRoute('fluffy_user_stats', [
-            'id' => $user->getId(),
-            'eaContext' => $request->query->get('eaContext')
-        ]);
+        return new RedirectResponse($adminUrlGenerator->setRoute('fluffy_user_stats', ['id' => $user->getId()])->generateUrl());
     }
 }

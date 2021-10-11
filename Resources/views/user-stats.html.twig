@@ -105,9 +105,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for index, page in page_views_year %}
+                        {% for key, page in page_views_year %}
                             <tr>
-                                <td data-sort="{{ index }}">{{ page.createdAt|format_datetime('medium', 'medium', locale=app.request.locale) }}</td>
+                                <td data-sort="{{ key }}">{{ page.createdAt|format_datetime('medium', 'medium', locale=app.request.locale) }}</td>
                                 <td>
                                     {{ page.url|slice(0,50) }}{{ (page.url|length > 50) ? '...' }}
                                 </td>

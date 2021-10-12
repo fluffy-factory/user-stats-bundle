@@ -38,7 +38,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->orderBy('usl.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
 
     /**
@@ -52,7 +52,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
 
     /**
@@ -69,6 +69,24 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->setParameter('route', $route)
             ->getQuery()
             ->getResult()
-        ;
+            ;
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function findBySession(User $user): array
+    {
+        return $this->createQueryBuilder('usl')
+            ->andWhere('usl.user = :user')
+            ->andWhere('usl.sessionId IS NOT NULL')
+            ->groupBy('usl.sessionId')
+            ->addGroupBy('usl.id')
+            ->setParameter('user', $user)
+            ->orderBy('usl.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }

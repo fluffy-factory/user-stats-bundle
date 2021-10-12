@@ -42,6 +42,11 @@ class UserStatsLines
     private $route;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $sessionId;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $browser;
@@ -121,6 +126,22 @@ class UserStatsLines
     public function setRoute($route): void
     {
         $this->route = $route;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    /**
+     * @param string|null $sessionId
+     */
+    public function setSessionId(?string $sessionId): void
+    {
+        $this->sessionId = $sessionId;
     }
 
     /**

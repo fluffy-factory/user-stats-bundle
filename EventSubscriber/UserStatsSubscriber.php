@@ -43,11 +43,12 @@ class UserStatsSubscriber implements EventSubscriberInterface
         if ($user && $event->getRequest()->get('_route')) {
             $user->setLastVisited(new DateTime());
             $user->setNbPageViews($user->getNbPageViews() + 1);
-            
+
             $userStatsLines = new UserStatsLines();
             $userStatsLines->setUser($user);
             $userStatsLines->setUrl($event->getRequest()->getRequestUri());
             $userStatsLines->setRoute($event->getRequest()->get('_route'));
+            $userStatsLines->setSessionId(session_id());
             $userStatsLines->setBrowser($event->getRequest()->server->get('HTTP_USER_AGENT'));
 
             $this->em->persist($user);

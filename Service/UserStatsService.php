@@ -20,9 +20,9 @@ class UserStatsService
      * @param User $user
      * @param DateTime $begin
      * @param DateTime $end
-     * @return UserStatsLines[]
+     * @return array
      */
-    public function getPageViewsPerPeriod(User $user, DateTime $begin, DateTime $end)
+    public function getPageViewsPerPeriod(User $user, DateTime $begin, DateTime $end): array
     {
         return $this->em->getRepository(UserStatsLines::class)->findByPeriod($user, $begin, $end);
     }
@@ -31,7 +31,7 @@ class UserStatsService
      * @param User $user
      * @return array[]
      */
-    public function getAvgUtilisation(User $user)
+    public function getAvgUtilisation(User $user): array
     {
         $userStatsLines = $this->em->getRepository(UserStatsLines::class)->findByUser($user);
 
@@ -64,9 +64,9 @@ class UserStatsService
 
     /**
      * @param User $user
-     * @return UserStatsLines[]
+     * @return array
      */
-    public function getMostRouteViewed(User $user)
+    public function getMostRouteViewed(User $user): array
     {
         $mostRouteViewed = [];
         $userStatsLines = $this->em->getRepository(UserStatsLines::class)->findByUser($user);
@@ -83,6 +83,23 @@ class UserStatsService
         arsort($mostRouteViewed);
 
         return $mostRouteViewed;
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getBySession(User $user): array
+    {
+        $sessions = [];
+        $userStatsLines = $this->em->getRepository(UserStatsLines::class)->findBySession($user);
+
+        /** @var UserStatsLines $userStatsLine */
+        foreach ($userStatsLines as $userStatsLine) {
+            $sessions[$userStatsLine->getSessionId()][] = $userStatsLine;
+        }
+
+        return $sessions;
     }
 
     /**

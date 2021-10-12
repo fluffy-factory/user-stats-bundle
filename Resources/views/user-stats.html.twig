@@ -18,7 +18,7 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-4">
             <div class="card text-center">
                 <div class="card-header">{{ 'user.stats.card.lastConnexion'|trans({}, 'UserStatsBundle') }}</div>
                 <div class="card-body">
@@ -92,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 mb-4">
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered fluffy-user-stats-table" style="width: 100%">
@@ -124,6 +124,43 @@
                 </div>
             </div>
         </div>
+        {% if statsSession %}
+            <div class="col-sm-12 mb-4">
+                <div class="card">
+                    <div class="card-header">Par session</div>
+                    <div class="card-body">
+                        <div class="accordion" id="ffAccordionSession">
+                            {% for sessionId, userStatsLines in statsSession %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ sessionId }}">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ sessionId }}" aria-expanded="true" aria-controls="collapse{{ sessionId }}">
+                                            {{ (userStatsLines|first).createdAt|format_datetime('short', 'medium', locale=app.request.locale) }} - {{ (userStatsLines|last).createdAt|format_datetime('short', 'medium', locale=app.request.locale) }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ sessionId }}" class="accordion-collapse collapse" aria-labelledby="heading{{ sessionId }}" data-bs-parent="#ffAccordionSession">
+                                        <div class="accordion-body">
+                                            <ul class="list-group">
+                                                {% for index, userStatsLine in userStatsLines %}
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <p class="mb-0"><span class="badge bg-secondary me-2">{{ userStatsLines|length - index }}</span>{{ userStatsLine.route }}</p>
+                                                            <a href="{{ userStatsLine.url }}"><small>{{ userStatsLine.url|length > 50 ? userStatsLine.url|slice(0, 50) ~ '...' : userStatsLine.url  }}</small></a>
+                                                        </div>
+                                                        <div>
+                                                            {{ userStatsLine.diff|date("<span class='badge badge-secondary'>%d j</span> <span class='badge badge-secondary'>%h h</span> <span class='badge badge-secondary'>%i m</span> <span class='badge badge-secondary'>%s s</span>")|raw }}
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     <div class="modal fade" id="removeUsersStatsModal" tabindex="-1" role="dialog" aria-labelledby="removeUsersStatsModalLabel" aria-hidden="true">

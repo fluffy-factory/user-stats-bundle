@@ -38,7 +38,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->orderBy('usl.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**
@@ -52,7 +52,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**
@@ -69,7 +69,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->setParameter('route', $route)
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**
@@ -87,6 +87,6 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->orderBy('usl.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 }

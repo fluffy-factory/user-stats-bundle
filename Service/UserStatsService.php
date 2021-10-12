@@ -99,6 +99,17 @@ class UserStatsService
             $sessions[$userStatsLine->getSessionId()][] = $userStatsLine;
         }
 
+        foreach ($sessions as $session) {
+            foreach ($session as $index => $userStatLine) {
+                if ($index === array_key_first($session)) {
+                    $session[$index]->diff = date_diff($session[$index]->getCreatedAt(), new DateTime());
+                } else {
+                    $session[$index]->diff = date_diff($session[$index]->getCreatedAt(), $session[$index - 1]->getCreatedAt());
+                }
+
+            }
+        }
+
         return $sessions;
     }
 

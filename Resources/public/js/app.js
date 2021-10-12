@@ -8,7 +8,7 @@ $(document).ready( function () {
     }
 
     $('.fluffy-user-stats-table').DataTable({
-        order: [[0, 'desc']],
+        order: [[0, 'asc']],
         responsive: {
             details: true
         },

@@ -6,6 +6,7 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FluffyFactory\Bundle\UserStatsBundle\Entity\UserStatsLines;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
@@ -14,11 +15,13 @@ class UserStatsSubscriber implements EventSubscriberInterface
 {
     private $security;
     private $em;
+    private $containerBag;
 
-    public function __construct(Security $security, EntityManagerInterface $em)
+    public function __construct(Security $security, EntityManagerInterface $em, ContainerBagInterface $containerBag)
     {
         $this->security = $security;
         $this->em = $em;
+        $this->containerBag = $containerBag;
     }
 
     /**
@@ -39,8 +42,16 @@ class UserStatsSubscriber implements EventSubscriberInterface
     {
         /** @var User $user */
         $user = $this->security->getUser();
+        $route = $event->getRequest()->get('_route');
 
-        if ($user && $event->getRequest()->get('_route')) {
+        if ($user && $route) {
+
+            $excludeRoute = $this->containerBag->get('fluffy_user_stats')['exclude_route'];
+
+            if ($excludeRoute && in_array($route, $excludeRoute)) {
+                return;
+            }
+
             $user->setLastVisited(new DateTime());
             $user->setNbPageViews($user->getNbPageViews() + 1);
 

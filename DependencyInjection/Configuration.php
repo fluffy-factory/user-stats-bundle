@@ -13,7 +13,9 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
-                ->arrayNode('exclude_route')->end()
+                ->arrayNode('exclude_route')
+                    ->scalarPrototype()->end()
+                ->end()
             ->end()
         ;
 

@@ -17,6 +17,13 @@ composer require fluffy-factory/user-stats-bundle
 
 ## Configuration
 
+You can create your own configuration in `config/packages/fluffy_user_stats.yaml`:
+
+```yaml
+user_stats:
+  exclude_route: ['homepage', 'contact']
+```
+
 ### Entity
 
 Add mixin Class `use UserStats` in your User entity

@@ -3,52 +3,37 @@
 namespace FluffyFactory\Bundle\UserStatsBundle\Entity;
 
 use DateTime;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesRepository")
- */
+#[ORM\Entity(repositoryClass: "FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesRepository")]
 class UserStatsLines
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ManyToOne(targetEntity="App\Entity\User", inversedBy="userLines")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ManyToOne(targetEntity: User::class, inversedBy: "userLines")]
+    #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: "datetime")]
+    #[Assert\NotBlank]
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private $url;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private $route;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: "string", nullable: true)]
     private $sessionId;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: "string")]
     private $browser;
 
     public function __construct()
@@ -56,105 +41,66 @@ class UserStatsLines
         $this->createdAt = new DateTime();
     }
 
-    /**
-     * @return mixed
-     */
     public function getUser()
     {
         return $this->user;
     }
 
-    /**
-     * @param mixed $user
-     */
     public function setUser($user): void
     {
         $this->user = $user;
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     */
     public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUrl()
     {
         return $this->url;
     }
 
-    /**
-     * @param mixed $url
-     */
     public function setUrl($url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRoute()
     {
         return $this->route;
     }
 
-    /**
-     * @param mixed $route
-     */
     public function setRoute($route): void
     {
         $this->route = $route;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
 
-    /**
-     * @param string|null $sessionId
-     */
     public function setSessionId(?string $sessionId): void
     {
         $this->sessionId = $sessionId;
     }
 
-    /**
-     * @return mixed
-     */
     public function getBrowser()
     {
         return $this->browser;
     }
 
-    /**
-     * @param mixed $browser
-     */
     public function setBrowser($browser): void
     {
         $this->browser = $browser;

@@ -44,7 +44,7 @@ class UserStatsSubscriber implements EventSubscriberInterface
         $user = $this->security->getUser();
         $route = $event->getRequest()->get('_route');
 
-        if ($user && $route) {
+        if ($user && $route && !$this->security->isGranted('IS_IMPERSONATOR')) {
 
             $excludeRoute = $this->containerBag->get('fluffy_user_stats')['exclude_route'];
 

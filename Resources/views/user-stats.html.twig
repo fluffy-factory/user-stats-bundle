@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content_title %}
-    {{ 'user.stats.title'|trans({}, 'UserStatsBundle') }}
+    {{ 'user.stats.title'|trans({}, 'UserStatsBundle') }} {% if user.lastname is defined and user.firstname is defined %}{{ user.lastname ~ ' ' ~ user.firstname }}{% endif %}
 {% endblock %}
 
 {% block page_actions %}

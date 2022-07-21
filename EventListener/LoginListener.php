@@ -6,6 +6,7 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Exception;
 
 class LoginListener
 {
@@ -24,8 +25,10 @@ class LoginListener
         /** @var User $user */
         $user = $event->getAuthenticationToken()->getUser();
 
-        $user->setLastConnexion(new DateTime());
-        $this->em->persist($user);
-        $this->em->flush();
+        try {
+            $user->setLastConnexion(new DateTime());
+            $this->em->persist($user);
+            $this->em->flush();
+        } catch (Exception $e) {}
     }
 }

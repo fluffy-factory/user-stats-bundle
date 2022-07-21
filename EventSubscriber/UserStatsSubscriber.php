@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
+use Exception;
 
 class UserStatsSubscriber implements EventSubscriberInterface
 {
@@ -52,20 +53,22 @@ class UserStatsSubscriber implements EventSubscriberInterface
                 return;
             }
 
-            $user->setLastVisited(new DateTime());
-            $user->setNbPageViews($user->getNbPageViews() + 1);
+            try {
+                $user->setLastVisited(new DateTime());
+                $user->setNbPageViews($user->getNbPageViews() + 1);
 
-            $userStatsLines = new UserStatsLines();
-            $userStatsLines->setUser($user);
-            $userStatsLines->setUrl($event->getRequest()->getRequestUri());
-            $userStatsLines->setRoute($event->getRequest()->get('_route'));
-            $userStatsLines->setSessionId(session_id());
-            $userStatsLines->setBrowser($event->getRequest()->server->get('HTTP_USER_AGENT'));
+                $userStatsLines = new UserStatsLines();
+                $userStatsLines->setUser($user);
+                $userStatsLines->setUrl($event->getRequest()->getRequestUri());
+                $userStatsLines->setRoute($event->getRequest()->get('_route'));
+                $userStatsLines->setSessionId(session_id());
+                $userStatsLines->setBrowser($event->getRequest()->server->get('HTTP_USER_AGENT'));
 
-            $this->em->persist($user);
-            $this->em->persist($userStatsLines);
+                $this->em->persist($user);
+                $this->em->persist($userStatsLines);
 
-            $this->em->flush();
+                $this->em->flush();
+            } catch (Exception $e) {}
         }
     }
 }

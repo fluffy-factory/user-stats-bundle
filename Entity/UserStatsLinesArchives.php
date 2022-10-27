@@ -49,6 +49,8 @@ class UserStatsLinesArchives
     public function setUser($user): self
     {
         $this->user = $user;
+
+        return $this;
     }
 
     public function getId()
@@ -64,6 +66,8 @@ class UserStatsLinesArchives
     public function setCreatedAt($createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     public function getUrl()
@@ -74,6 +78,8 @@ class UserStatsLinesArchives
     public function setUrl($url): self
     {
         $this->url = $url;
+
+        return $this;
     }
 
     public function getRoute()
@@ -84,6 +90,8 @@ class UserStatsLinesArchives
     public function setRoute($route): self
     {
         $this->route = $route;
+
+        return $this;
     }
 
     public function getSessionId(): ?string
@@ -94,6 +102,8 @@ class UserStatsLinesArchives
     public function setSessionId(?string $sessionId): self
     {
         $this->sessionId = $sessionId;
+
+        return $this;
     }
 
     public function getBrowser()
@@ -104,5 +114,7 @@ class UserStatsLinesArchives
     public function setBrowser($browser): self
     {
         $this->browser = $browser;
+
+        return $this;
     }
 }

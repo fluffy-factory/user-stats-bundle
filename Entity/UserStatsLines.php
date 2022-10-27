@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesRepository")]
+#[ORM\Index(columns: ["created_at", "user_id"], name: "user_archive")]
 class UserStatsLines
 {
     #[ORM\Id]
@@ -46,9 +47,11 @@ class UserStatsLines
         return $this->user;
     }
 
-    public function setUser($user): void
+    public function setUser($user): self
     {
         $this->user = $user;
+
+        return $this;
     }
 
     public function getId()
@@ -61,9 +64,11 @@ class UserStatsLines
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt): void
+    public function setCreatedAt($createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     public function getUrl()
@@ -71,9 +76,11 @@ class UserStatsLines
         return $this->url;
     }
 
-    public function setUrl($url): void
+    public function setUrl($url): self
     {
         $this->url = $url;
+
+        return $this;
     }
 
     public function getRoute()
@@ -81,9 +88,11 @@ class UserStatsLines
         return $this->route;
     }
 
-    public function setRoute($route): void
+    public function setRoute($route): self
     {
         $this->route = $route;
+
+        return $this;
     }
 
     public function getSessionId(): ?string
@@ -91,9 +100,11 @@ class UserStatsLines
         return $this->sessionId;
     }
 
-    public function setSessionId(?string $sessionId): void
+    public function setSessionId(?string $sessionId): self
     {
         $this->sessionId = $sessionId;
+
+        return $this;
     }
 
     public function getBrowser()
@@ -101,8 +112,10 @@ class UserStatsLines
         return $this->browser;
     }
 
-    public function setBrowser($browser): void
+    public function setBrowser($browser): self
     {
         $this->browser = $browser;
+
+        return $this;
     }
 }

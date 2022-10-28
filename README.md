@@ -24,7 +24,6 @@ user_stats:
   exclude_route: ["liip_imagine_filter"]
   user_stat_enabled: true
   max_month_before_archive: 6
-  archive_enabled: false
 ```
 
 ### Entity
@@ -65,14 +64,14 @@ fluffy_user_stats:
 
 ### Archive
 
-If you have a lot of users and the data table is getting too big; you can automatically archive your data older than 6 months (by default) in a data table named **user_stats_lines_archives**.
+If you have a lot of users and the data table is getting too big; you can archive your data older than 6 months (by default) in a data table named **user_stats_lines_archives**.
 
-To enabled archive you need to set the **archive_enabled** at true.
+To archive you need to use the command ```make:user:stats:archive```
 
+You can change the number of months archived :
 ```yaml
 # config/packages/fluffy_user_stats.yaml
 user_stats:
-    archive_enabled: true
     # number of months before the data is archived
     max_month_before_archive: 6 
 ```

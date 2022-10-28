@@ -23,6 +23,10 @@ user:
 actions:
   delete:
     stats: Gebruikers statistieken verwijderen
+  user:
+    show: see the user
+  index_user:
+    show: See user listing
 
 day:
   Monday: Maandag

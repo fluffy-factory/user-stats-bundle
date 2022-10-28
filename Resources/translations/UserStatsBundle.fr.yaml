@@ -23,6 +23,10 @@ user:
 actions:
   delete:
     stats: Supprimer les statistiques de l'utilisateur
+  user:
+    show: Voir l'utilisateur
+  index_user:
+    show: Retourner à la liste des utilisateurs
 
 day:
   Monday: Lundi

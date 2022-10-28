@@ -12,7 +12,8 @@
 {% endblock %}
 
 {% block page_actions %}
-    <a class="btn btn-secondary" href="{{ ea_url().setController('App\\Controller\\SuperAdmin\\UserCrudController').setAction('index') }}">{{ 'action.index'|trans({}, 'EasyAdminBundle') }}</a>
+    <a class="btn btn-secondary" href="{{ ea_url().setController('App\\Controller\\SuperAdmin\\UserCrudController').setAction('detail').setEntityId(user.id) }}">{{ 'actions.user.show'|trans({}, 'UserStatsBundle') }}</a>
+    <a class="btn btn-secondary" href="{{ ea_url().setController('App\\Controller\\SuperAdmin\\UserCrudController').setAction('index') }}">{{ 'actions.index_user.show'|trans({}, 'UserStatsBundle') }}</a>
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeUsersStatsModal">{{ 'actions.delete.stats'|trans({}, 'UserStatsBundle') }}</button>
 {% endblock %}
 

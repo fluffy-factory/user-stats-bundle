@@ -16,6 +16,15 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('exclude_route')
                     ->scalarPrototype()->end()
                 ->end()
+                ->booleanNode('user_stat_enabled')
+                    ->defaultTrue()
+                ->end()
+                ->integerNode('max_month_before_archive')
+                    ->defaultValue(6)->min(0)->max(240)
+                ->end()
+                ->booleanNode('archive_enabled')
+                    ->defaultFalse()
+                ->end()
             ->end()
         ;
 

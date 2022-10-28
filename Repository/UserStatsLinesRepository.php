@@ -89,4 +89,18 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * @param DateTime $dateToArchive
+     * @return array
+     */
+    public function findToArchive(DateTime $dateToArchive): array
+    {
+        return $this->createQueryBuilder('usl')
+            ->andWhere('usl.createdAt < :dateToArchive')
+            ->setParameter('dateToArchive', $dateToArchive)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

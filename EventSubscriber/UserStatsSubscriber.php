@@ -60,10 +60,6 @@ class UserStatsSubscriber implements EventSubscriberInterface
                     $user->setLastVisited(new DateTime());
                     $user->setNbPageViews($user->getNbPageViews() + 1);
 
-                    if ($this->containerBag->get('fluffy_user_stats')['archive_enabled']) {
-                        $this->archiveData($user);
-                    }
-
                     $userStatsLines = new UserStatsLines();
                     $userStatsLines->setUser($user);
                     $userStatsLines->setUrl($event->getRequest()->getRequestUri());
@@ -79,34 +75,5 @@ class UserStatsSubscriber implements EventSubscriberInterface
                 }
             }
         }
-    }
-
-    /**
-     * @param User $user
-     * @return void
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    private function archiveData(User $user) :void
-    {
-        $dateToArchive = (new DateTime())->modify("-" . $this->containerBag->get('fluffy_user_stats')['max_month_before_archive'] . " months");
-        $userStatsLinesToArchives = $this->em->getRepository(UserStatsLines::class)->findToArchive($user, $dateToArchive);
-
-        /** @var UserStatsLines $userStatsLinesToArchive */
-        foreach ($userStatsLinesToArchives as $userStatsLine) {
-            $userStatsLinesArchive = new UserStatsLinesArchives();
-
-            $userStatsLinesArchive
-                ->setUser($userStatsLine->getUser())
-                ->setBrowser($userStatsLine->getBrowser())
-                ->setCreatedAt($userStatsLine->getCreatedAt())
-                ->setRoute($userStatsLine->getRoute())
-                ->setSessionId($userStatsLine->getSessionId())
-                ->setUrl($userStatsLine->getUrl());
-
-            $this->em->persist($userStatsLinesArchive);
-            $this->em->remove($userStatsLine);
-        }
-        $this->em->flush();
     }
 }

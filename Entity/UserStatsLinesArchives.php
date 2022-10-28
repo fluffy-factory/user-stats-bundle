@@ -8,9 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: "FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesRepository")]
-#[ORM\Index(columns: ["created_at", "user_id"], name: "user_archive")]
-class UserStatsLines
+#[ORM\Entity(repositoryClass: "FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesArchivesRepository")]
+class UserStatsLinesArchives
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

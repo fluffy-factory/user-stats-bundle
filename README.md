@@ -21,7 +21,10 @@ You can create your own configuration in `config/packages/fluffy_user_stats.yaml
 
 ```yaml
 user_stats:
-  exclude_route: ['homepage', 'contact']
+  exclude_route: ["liip_imagine_filter"]
+  user_stat_enabled: true
+  max_month_before_archive: 6
+  archive_enabled: false
 ```
 
 ### Entity
@@ -58,6 +61,20 @@ fluffy_user_stats:
   resource: "@UserStatsBundle/Controller/UserStatsController.php"
   type: annotation
   # prefix: /admin
+```
+
+### Archive
+
+If you have a lot of users and the data table is getting too big; you can automatically archive your data older than 6 months (by default) in a data table named **user_stats_lines_archives**.
+
+To enabled archive you need to set the **archive_enabled** at true.
+
+```yaml
+# config/packages/fluffy_user_stats.yaml
+user_stats:
+    archive_enabled: true
+    # number of months before the data is archived
+    max_month_before_archive: 6 
 ```
 
 ## Integration

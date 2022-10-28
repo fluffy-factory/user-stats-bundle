@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "FluffyFactory\Bundle\UserStatsBundle\Repository\UserStatsLinesRepository")]
-#[ORM\Index(columns: ["created_at", "user_id"], name: "user_archive")]
+#[ORM\Index(columns: ["created_at"], name: "date_archive")]
 class UserStatsLines
 {
     #[ORM\Id]

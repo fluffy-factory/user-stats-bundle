@@ -22,9 +22,6 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('max_month_before_archive')
                     ->defaultValue(6)->min(0)->max(240)
                 ->end()
-                ->booleanNode('archive_enabled')
-                    ->defaultFalse()
-                ->end()
             ->end()
         ;
 

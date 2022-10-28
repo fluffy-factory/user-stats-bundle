@@ -75,7 +75,7 @@ class ArchiveUserStatsCommand extends Command
 
         $this->output->writeln( "Begin transfert data");
         /** @var UserStatsLines $userStatsLinesToArchive */
-        foreach ($userStatsLinesToArchives as $userStatsLine) {
+        foreach ($userStatsLinesToArchives as $key => $userStatsLine) {
             $progressBar->advance();
 
             $userStatsLinesArchive = new UserStatsLinesArchives();
@@ -90,13 +90,14 @@ class ArchiveUserStatsCommand extends Command
 
             $this->em->persist($userStatsLinesArchive);
             $this->em->remove($userStatsLine);
+
+            if ($key % 50000 === 0) {
+                $this->em->flush();
+            }
         }
+
+        $this->em->flush();
         $progressBar->finish();
         $this->output->writeln( "\nEnd transfert data");
-
-
-        $this->output->writeln( "Begin flush data");
-        $this->em->flush();
-        $this->output->writeln( "End flush data");
     }
 }

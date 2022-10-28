@@ -10,3 +10,7 @@ services:
   FluffyFactory\Bundle\UserStatsBundle\EventListener\LoginListener:
     tags:
       - { name: 'kernel.event_listener', event: 'security.interactive_login' }
+
+  FluffyFactory\Bundle\UserStatsBundle\Command\ArchiveUserStatsCommand:
+    tags:
+      - { name: 'console.command', command: 'make:user:stats:archive' }

@@ -27,18 +27,22 @@ class UserStatsLinesRepository extends ServiceEntityRepository
      * @param DateTime $end
      * @return array
      */
-    public function findByPeriod(User $user, DateTime $begin, DateTime $end): array
+    public function findByPeriod(User $user, DateTime $begin, DateTime $end, int $maxResult = 0): array
     {
-        return $this->createQueryBuilder('usl')
+        $query = $this->createQueryBuilder('usl')
             ->andWhere('usl.user = :user')
             ->andWhere('usl.createdAt BETWEEN :begin AND :end')
             ->setParameter('user', $user)
             ->setParameter('begin', $begin)
             ->setParameter('end', $end)
-            ->orderBy('usl.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->orderBy('usl.createdAt', 'DESC');
+
+        if ($maxResult) {
+            $query->setMaxResults($maxResult);
+        }
+
+        return $query->getQuery()
+            ->getResult();
     }
 
     /**
@@ -51,8 +55,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->andWhere('usl.user = :user')
             ->setParameter('user', $user)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -68,8 +71,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setParameter('route', $route)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -86,8 +88,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->orderBy('usl.createdAt', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -100,7 +101,6 @@ class UserStatsLinesRepository extends ServiceEntityRepository
             ->andWhere('usl.createdAt < :dateToArchive')
             ->setParameter('dateToArchive', $dateToArchive)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

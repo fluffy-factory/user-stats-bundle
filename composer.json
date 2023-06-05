@@ -17,7 +17,8 @@
     }
   ],
   "require": {
-    "php": ">=8.0"
+    "php": ">=8.0",
+    "knplabs/knp-paginator-bundle": "^6.2"
   },
   "autoload": {
     "psr-4": {

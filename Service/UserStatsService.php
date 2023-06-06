@@ -24,7 +24,7 @@ class UserStatsService
      */
     public function getPageViewsPerPeriod(User $user, DateTime $begin, DateTime $end, $maxResult = 0): array
     {
-        return $this->em->getRepository(UserStatsLines::class)->findByPeriod($user, $begin, $end, $maxResult = 0);
+        return $this->em->getRepository(UserStatsLines::class)->findByPeriod($user, $begin, $end, $maxResult);
     }
 
     /**

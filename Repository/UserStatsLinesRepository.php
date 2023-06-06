@@ -25,6 +25,7 @@ class UserStatsLinesRepository extends ServiceEntityRepository
      * @param User $user
      * @param DateTime $begin
      * @param DateTime $end
+     * @param int $maxResult
      * @return array
      */
     public function findByPeriod(User $user, DateTime $begin, DateTime $end, int $maxResult = 0): array

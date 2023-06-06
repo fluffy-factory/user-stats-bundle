@@ -9,17 +9,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use FluffyFactory\Bundle\UserStatsBundle\Service\UserStatsService;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserStatsController extends AbstractController
 {
-    public function __construct(private PaginatorInterface $paginator, private ContainerBagInterface $containerBag)
+    public function __construct(private readonly PaginatorInterface $paginator, private readonly ContainerBagInterface $containerBag)
     {
     }
 
@@ -29,10 +30,11 @@ class UserStatsController extends AbstractController
      * @param Request $request
      * @param UserStatsService $userStatsService
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function userStats(User $user, Request $request, UserStatsService $userStatsService): Response
     {
-        $maxResult = 2000;
         $lastConnexion = $user->getLastConnexion();
         $lastVisited = $user->getLastVisited();
         $nbPageViews = $user->getNbPageViews();
@@ -64,9 +66,11 @@ class UserStatsController extends AbstractController
      * @Route("/remove-user-stats/{id}", name="fluffy_remove_user_stats")
      * @param User $user
      * @param UserStatsService $userStatsService
+     * @param EntityManagerInterface $entityManager
+     * @param AdminUrlGenerator $adminUrlGenerator
      * @return RedirectResponse
      */
-    public function removeUserStats(Request $request, User $user, UserStatsService $userStatsService, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
+    public function removeUserStats(User $user, UserStatsService $userStatsService, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
     {
         $user->setLastConnexion(null);
         $user->setLastVisited(null);

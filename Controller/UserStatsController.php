@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use FluffyFactory\Bundle\UserStatsBundle\Service\UserStatsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +19,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserStatsController extends AbstractController
 {
-    public function __construct(private PaginatorInterface $paginator)
+    public function __construct(private PaginatorInterface $paginator, private ContainerBagInterface $containerBag)
     {
-        $this->paginator = $paginator;
     }
 
     /**
@@ -37,7 +37,7 @@ class UserStatsController extends AbstractController
         $lastVisited = $user->getLastVisited();
         $nbPageViews = $user->getNbPageViews();
         $pageViewsToday = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('midnight'), (new DateTime())->modify('23:59:59'));
-        $pageViewYear = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('- 1 year'), (new DateTime())->modify('23:59:59'), $maxResult);
+        $pageViewYear = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('- 1 year'), (new DateTime())->modify('23:59:59'), $this->containerBag->get('fluffy_user_stats')['user_stat_max_result']);
         $avgUtilisation = $userStatsService->getAvgUtilisation($user);
         $mostRouteViewed = $userStatsService->getMostRouteViewed($user);
         $statsSession = $userStatsService->getBySession($user);

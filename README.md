@@ -24,6 +24,7 @@ user_stats:
   exclude_route: ["liip_imagine_filter"]
   user_stat_enabled: true
   max_month_before_archive: 6
+  user_stat_max_result: 2000
 ```
 
 ### Entity

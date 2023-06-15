@@ -24,9 +24,9 @@ actions:
   delete:
     stats: Gebruikers statistieken verwijderen
   user:
-    show: see the user
+    show: De gebruiker zien
   index_user:
-    show: See user listing
+    show: Terugkeren naar de lijst met gebruikers
 
 day:
   Monday: Maandag

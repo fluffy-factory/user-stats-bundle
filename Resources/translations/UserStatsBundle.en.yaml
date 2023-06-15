@@ -24,7 +24,7 @@ actions:
   delete:
     stats: Delete user statistics
   user:
-    show: see the user
+    show: See the user
   index_user:
     show: See user listing
 

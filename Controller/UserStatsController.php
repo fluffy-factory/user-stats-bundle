@@ -8,21 +8,30 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use FluffyFactory\Bundle\UserStatsBundle\Service\UserStatsService;
+use Knp\Component\Pager\PaginatorInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserStatsController extends AbstractController
 {
+    public function __construct(private readonly PaginatorInterface $paginator, private readonly ContainerBagInterface $containerBag)
+    {
+    }
+
     /**
      * @Route("/user-stats/{id}", name="fluffy_user_stats")
      * @param User $user
      * @param Request $request
      * @param UserStatsService $userStatsService
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function userStats(User $user, Request $request, UserStatsService $userStatsService): Response
     {
@@ -30,10 +39,15 @@ class UserStatsController extends AbstractController
         $lastVisited = $user->getLastVisited();
         $nbPageViews = $user->getNbPageViews();
         $pageViewsToday = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('midnight'), (new DateTime())->modify('23:59:59'));
-        $pageViewYear = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('- 1 year'), (new DateTime())->modify('23:59:59'));
+        $pageViewYear = $userStatsService->getPageViewsPerPeriod($user, (new DateTime())->modify('- 1 year'), (new DateTime())->modify('23:59:59'), $this->containerBag->get('fluffy_user_stats')['user_stat_max_result']);
         $avgUtilisation = $userStatsService->getAvgUtilisation($user);
         $mostRouteViewed = $userStatsService->getMostRouteViewed($user);
         $statsSession = $userStatsService->getBySession($user);
+
+        $statsSession = $this->paginator->paginate(
+            $statsSession,
+            $request->query->getInt('page', 1),
+        );
 
         return $this->render('@UserStats/user-stats.html.twig', [
             'user' => $user,
@@ -52,9 +66,11 @@ class UserStatsController extends AbstractController
      * @Route("/remove-user-stats/{id}", name="fluffy_remove_user_stats")
      * @param User $user
      * @param UserStatsService $userStatsService
+     * @param EntityManagerInterface $entityManager
+     * @param AdminUrlGenerator $adminUrlGenerator
      * @return RedirectResponse
      */
-    public function removeUserStats(Request $request, User $user, UserStatsService $userStatsService, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
+    public function removeUserStats(User $user, UserStatsService $userStatsService, EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator): RedirectResponse
     {
         $user->setLastConnexion(null);
         $user->setLastVisited(null);

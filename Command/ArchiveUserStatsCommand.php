@@ -24,6 +24,7 @@ use Twig\Error\SyntaxError;
 class ArchiveUserStatsCommand extends Command
 {
     private OutputInterface $output;
+    public const DOCTRINE_OPERATIONS_PER_FLUSH = 50000;
 
     protected function configure()
     {
@@ -91,7 +92,7 @@ class ArchiveUserStatsCommand extends Command
             $this->em->persist($userStatsLinesArchive);
             $this->em->remove($userStatsLine);
 
-            if ($key % 50000 === 0) {
+            if ($key % self::DOCTRINE_OPERATIONS_PER_FLUSH === 0) {
                 $this->em->flush();
             }
         }

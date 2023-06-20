@@ -6,7 +6,6 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FluffyFactory\Bundle\UserStatsBundle\Entity\UserStatsLines;
-use FluffyFactory\Bundle\UserStatsBundle\Entity\UserStatsLinesArchives;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;

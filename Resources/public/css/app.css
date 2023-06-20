@@ -14,3 +14,7 @@
 .dataTables_info {
     padding-top: 0 !important;
 }
+
+.user-stat-session .pagination .item {
+    font-size: 1.2rem;
+}
